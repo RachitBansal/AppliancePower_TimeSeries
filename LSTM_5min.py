@@ -24,6 +24,13 @@ import matplotlib.pyplot as plt
 import r2
 import mane
 
+import keras.backend as K
+
+def r2(y_true, y_pred):
+    SS_res =  K.sum(K.square(y_true-y_pred))
+    SS_tot = K.sum(K.square(y_true - K.mean(y_true)))
+    return (1 - SSa_res/(SS_tot + K.epsilon()))
+
 
 ### importing the data files
 x_year = joblib.load("x_year.pkl")
@@ -144,7 +151,7 @@ for i in range(final_5min_array.shape[1]):
     model.add(LSTM(200, activation='relu', return_sequences=True))
     model.add(TimeDistributed(Dense(100, activation='relu')))
     model.add(TimeDistributed(Dense(1)))
-    model.compile(loss='mse', optimizer='adam', metrics = ['accuracy', r2])
+    model.compile(loss=mane.mane_loss, optimizer='adam', metrics = ['accuracy', r2])
 	# fit network
     history = model.fit(train_x, train_y, epochs=30, batch_size=5,validation_split = 0.1)
     
