@@ -18,18 +18,28 @@ pip install --r requirements.txt
 ### Prepare Data
 - Preprocess the data to equipment-wise usable format 
 ```
-python Data/preprocess.py --src_dir <path-to-directory-containing-data> --src_file_name <common-prefix-for-all-equipments> --tar_dir <target-directory-to-place-preprocessed-data> --num_equips <number-of-equipments> --n_steps <number-of-timesteps, default=128> 
+python Data/preprocess.py --src_dir <path-to-directory-containing-data> --src_file_name \
+       <common-prefix-for-all-equipments> --tar_dir <target-directory-to-place-preprocessed-data>\
+       --num_equips <number-of-equipments> --n_steps <number-of-timesteps, default=128> 
 ```
 ### Run the Models
 - ARIMA 
 ```
-python Models/ARIMA.py --src_dir <path-to-directory-containing-preprocessed-data> --tar_dir <path-where-the-outputs-need-to-be-placed> --eq_num <equipment-number-to-be-tested> --num_preds <number-of-predictions-to-be-made> --draw_graphs <bool-variable--whether-to-draw-graphs-or-not>
+python Models/ARIMA.py --src_dir <path-to-directory-containing-preprocessed-data> --tar_dir \
+      <path-where-the-outputs-need-to-be-placed> --eq_num <equipment-number-to-be-tested> \
+      --num_preds <number-of-predictions-to-be-made> --draw_graphs <bool-variable-whether-to-draw-graphs-or-not>
 ```
 - CNN_LSTM
 ```
-python Models/CNN_LSTM.py --src_dir <path-to-directory-containing-preprocessed-data> --tgt_dir <path-where-the-outputs-need-to-be-placed> --eq_num <equipment-number-to-be-tested> --n_test <number-of-predictions-to-be-made> --n_models <numer-of-CNN_LSTM-models-to-be-made> --draw_graphs <bool-variable--whether-to-draw-graphs-or-not>
+python Models/CNN_LSTM.py --src_dir <path-to-directory-containing-preprocessed-data> --tgt_dir \
+       <path-where-the-outputs-need-to-be-placed> --eq_num <equipment-number-to-be-tested> --n_test \
+       <number-of-predictions-to-be-made> --n_models <numer-of-CNN_LSTM-models-to-be-made> \
+       --draw_graphs <bool-variable--whether-to-draw-graphs-or-not>
 ```
 - Ensemble
 ```
-python Models/Ensemble.py --src_dir <path-to-directory-containing-preprocessed-data> --tgt_dir <path-where-the-outputs-need-to-be-placed> --eq_num <equipment-number-to-be-tested> --n_test <number-of-predictions-to-be-made> --n_models <numer-of-CNN_LSTM-models-to-be-made> --draw_graphs <bool-variable--whether-to-draw-graphs-or-not>
+python Models/Ensemble.py --src_dir <path-to-directory-containing-preprocessed-data> --tgt_dir \
+       <path-where-the-outputs-need-to-be-placed> --eq_num <equipment-number-to-be-tested> \
+       --n_test <number-of-predictions-to-be-made> --n_models <numer-of-CNN_LSTM-models-to-be-made>\
+       --draw_graphs <bool-variable--whether-to-draw-graphs-or-not>
 ```
