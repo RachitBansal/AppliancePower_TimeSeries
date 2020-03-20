@@ -10,7 +10,7 @@ from keras.models import load_model
 def mean_absolute_percentage_error(y_true, y_pred):
     return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
 
-class ANN:
+class ANN_pipeline:
     def __init__(self,equipment,n_members,src_path,trg_path):
         self.eq = equipment
         self.n_members = n_members
