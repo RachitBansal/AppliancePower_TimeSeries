@@ -39,10 +39,10 @@ class LSTM_pipeline:
         regressor.fit(x_train,y_train,epochs = 20,batch_size = 128,verbose = 0,validation_split = 0.1)
         return regressor
     def load_data(self):
-        self.train_x = np.load(file=self.s_path+'x_eq'+str(self.eq-1)+'.npy')
-        self.train_y = np.load(file==self.s_path+'xt_eq'+str(self.eq-1)+'.npy')
-        test_x = np.load(file==self.s_path+'xt_eq'+str(self.eq-1)+'.npy')
-        test_y = np.load(file==self.s_path+'yt_eq'+str(self.eq-1)+'.npy')
+        self.train_x = np.load(file=self.s_path+'x_greend_eq'+str(self.eq-1)+'.npy')
+        self.train_y = np.load(file==self.s_path+'xt_greend_eq'+str(self.eq-1)+'.npy')
+        test_x = np.load(file==self.s_path+'xt_greend_eq'+str(self.eq-1)+'.npy')
+        test_y = np.load(file==self.s_path+'yt_greend_eq'+str(self.eq-1)+'.npy')
         val_split = int(0.2*test_x.shape[0])
         self.train_x = self.train_x.reshape(-1,128,1)
         self.train_y  = self.train_y.reshape(-1,1)
