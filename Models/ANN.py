@@ -29,12 +29,12 @@ class ANN_pipeline:
         return ann
         
     def load_data(self):
-        self.train_x = np.load(file=self.s_path+'x_eq'+str(self.eq-1)+'.npy')
-        self.train_y = np.load(file==self.s_path+'xt_eq'+str(self.eq-1)+'.npy')
+        self.train_x = np.load(file=self.s_path+'x_greend_eq'+str(self.eq-1)+'.npy')
+        self.train_y = np.load(file==self.s_path+'xt_greend_eq'+str(self.eq-1)+'.npy')
         self.train_x = self.train_x.reshape(-1,128)
         self.train_y = self.train_y.reshape(-1)
-        test_x = np.load(file==self.s_path+'xt_eq'+str(self.eq-1)+'.npy')
-        test_y = np.load(file==self.s_path+'yt_eq'+str(self.eq-1)+'.npy')
+        test_x = np.load(file==self.s_path+'xt_greend_eq'+str(self.eq-1)+'.npy')
+        test_y = np.load(file==self.s_path+'yt_greend_eq'+str(self.eq-1)+'.npy')
         val_split = int(0.2*test_x.shape[0])
         self.val_x = test_x[-val_split:].reshape(-1,128)
         self.val_y = test_y[-val_split:].reshape(-1)
