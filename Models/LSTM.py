@@ -65,7 +65,7 @@ class LSTM_pipeline:
         lstm_preds = []
         for i in range(n_test):
             lstm_preds.append(self.members[0].predict(self.test_x[i].reshape(1,128,1))
-        self.preds = self.preds.append(np.array(lstm_preds))
+        self.preds.append(np.array(lstm_preds))
         self.preds = self.preds[0]
         self.preds = self.preds.reshape(-1,)
         self.metricss(n_test)
