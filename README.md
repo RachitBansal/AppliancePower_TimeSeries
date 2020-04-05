@@ -43,3 +43,8 @@ python Models/Ensemble.py --src_dir <path-to-directory-containing-preprocessed-d
        --n_test <number-of-predictions-to-be-made> --n_models <numer-of-CNN_LSTM-models-to-be-made>\
        --draw_graphs <bool-variable--whether-to-draw-graphs-or-not>
 ```
+
+### Finding Start-End Time
+```
+python Models/StartFinish.py --data_path <path-to-directory-containing-data-to-apply-on> --target_path <path-where-the-outputs-need-to-be-placed> --num_preds <number-of-predictions-to-be-worked-on>
+```
