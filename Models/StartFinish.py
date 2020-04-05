@@ -1,10 +1,12 @@
 import pandas as pd
 from matplotlib import pyplot
-from sklearn.externals import joblib
+import joblib
 import numpy as np
 import datetime
 import pickle
 import argparse
+
+print("Hi ")
 
 def string_to_timestamp(string):
     date_time_obj = datetime.datetime.strptime(string, '%Y-%m-%d %H:%M:%S')
@@ -67,15 +69,24 @@ class to_serialised_on_off():
         else:
           of.append(0)
       np.save(target_path, np.array(of))
+      print("File Saved at the target location")
       
 
-def __main__():
+def main():
+    print("1 \n")
     parser = argparse.ArgumentParser(description="Start and End Times")
-    parser.add_argument('--num_preds', type='int')
+    parser.add_argument('--num_preds', type = int)
     parser.add_argument('--data_path')
     parser.add_argument('--target_path')
+    parser.add_argument('--resample', type = bool)
     args = parser.parse_args()
     prep = data_prep(args.data_path)
     data = prep.get_final_data()
+    # # else:
+    # data = np.load(args.data_path)
+    print("Data Prepared \n")
     obj = to_serialised_on_off(data[:args.num_preds])
     obj.on_off(args.target_path)
+
+if __name__== "__main__":
+  main()

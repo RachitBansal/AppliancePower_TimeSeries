@@ -1,4 +1,4 @@
-from sklearn.externals import joblib
+import joblib
 import numpy as np
 import matplotlib.pyplot as plt
 import argparse
@@ -42,14 +42,28 @@ def run_ARIMA(eq_num, src_dir, tar_path, num_preds = 1000, weights = None, draw_
     plt.plot(predictions, c = 'blue')
     plt.savefig(tar_path+str(eq_num)+'ARIMA_graph.png')
 
+def str2bool(v):
+    if isinstance(v, bool):
+       return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
 
-def __main__():
+def main():
     parser = argparse.ArgumentParser(description="Run ARIMA")
     parser.add_argument('--num_preds', type='int')
-    parser.add_argument('--draw_graph', type='bool')
+    parser.add_argument("--draw_graph", type=str2bool, nargs='?',
+                        const=True, default=False,
+                        help="to draw graphs or not")
     parser.add_argument('--src_dir')
     parser.add_argument('--tar_dir')
     parser.add_argument('--weights')
     parser.add_argument('--eq_num', type='int')
     args = parser.parse_args()
     run_ARIMA(args.eq_num, args.src_dir, args.num_preds, args.weights, args.draw_graph, args.tar_path)
+
+if __name__== "__main__":
+  main()

@@ -1,4 +1,4 @@
-from sklearn.externals import joblib
+import joblib
 from keras.layers import Dense ,LSTM
 from keras.models import Sequential 
 from sklearn.metrics import mean_absolute_error,mean_squared_error
@@ -30,7 +30,7 @@ def mean_absolute_percentage_error(y_true, y_pred):
     return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
 
 class Ensemble_pipeline():
-  def __init__(self, equipment, n_members):
+  def __init__(self, equipment, n_members, src_path, tgt_path):
     self.eq = equipment
     self.n_members = n_members
     self.s_path = src_path
@@ -59,10 +59,10 @@ class Ensemble_pipeline():
     return model
 
   def load_data(self):
-    self.train_x = np.load(file=self.s_path+'x_eq'+str(self.eq-1)+'.npy')
-    self.train_y = np.load(file==self.s_path+'xt_eq'+str(self.eq-1)+'.npy')
-    test_x = np.load(file==self.s_path+'xt_eq'+str(self.eq-1)+'.npy')
-    test_y = np.load(file==self.s_path+'yt_eq'+str(self.eq-1)+'.npy')
+    self.train_x = np.load(file=self.s_path+str(self.eq)+'_x.npy')
+    self.train_y = np.load(file=self.s_path+str(self.eq)+'_y.npy')
+    test_x = np.load(file=self.s_path+str(self.eq)+'_tx.npy')
+    test_y = np.load(file=self.s_path+str(self.eq)+'_ty.npy')
     val_split = int(0.2*test_x.shape[0])
     self.val_x = test_x[-val_split:]
     self.val_y = test_y[-val_split:]
@@ -146,13 +146,13 @@ class Ensemble_pipeline():
     print("MAE : %.3f"%(mean_absolute_error(test_y.reshape(-1),preds)))
     # print("MAPE: %.3f"%(mean_absolute_percentage_error(test_y.reshape(-1), preds)))
 
-  def pipeline(self, n_test=100, idx=0, train=False, load=True):
+  def pipeline(self, n_test=100, idx=0, train=False):
     self.load_data()
     if(train):
         for i in range(self.n_members):
           print(self.train_x.shape)
           model = self.fit_cnn_lstm(self.train_x, self.train_y)
-          filename = self.s_path + str(self.eq-1) + '_model_' + str(i + 1) + '.h5'
+          filename = self.t_path + str(self.eq-1) + '_model_' + str(i + 1) + '.h5'
           model.save(filename)
           print('>>> Saved %s' % filename)
 
@@ -164,18 +164,35 @@ class Ensemble_pipeline():
     self.make_cnnlstm_comparison_graph(n_test, idx)
 
 def run_Ensemble(num_equips, n_test, n_models, src_dir, tgt_dir, train = False):
-    for i in range(num_equips):
-        d["obj{0}".format(i)] = Ensemble_pipeline(i+1, n_models, src_dir, tgt_dir)
-        d["obj{0}".format(i)].pipeline(n_test, train)
+  d = {}
+  for i in range(num_equips):
+      d["obj{0}".format(i)] = Ensemble_pipeline(i+1, n_models, src_dir, tgt_dir)
+      d["obj{0}".format(i)].pipeline(n_test, train = train)
 
-def __main__():
+def str2bool(v):
+    if isinstance(v, bool):
+       return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
+
+def main():
     parser = argparse.ArgumentParser(description="Run Ensemble")
-    parser.add_argument('--num_equips', type='int')
-    parser.add_argument('--train', type='bool')
+    parser.add_argument('--num_equips', type=int)
+    # parser.add_argument('--train', default=False, action='store_true')
     parser.add_argument('--src_dir')
     parser.add_argument('--tgt_dir')
     # parser.add_argument('--weights')
-    parser.add_argument('--n_test', type='int')
-    parser.add_argument('--n_models', type = 'int')
+    parser.add_argument('--n_test', type=int)
+    parser.add_argument('--n_models', type = int)
+    parser.add_argument("--train", type=str2bool, nargs='?',
+                        const=True, default=False,
+                        help="to train or not")
     args = parser.parse_args()
     run_Ensemble(args.num_equips, args.n_test, args.n_models, args.src_dir, args.tgt_dir, args.train)
+
+if __name__== "__main__":
+  main()
